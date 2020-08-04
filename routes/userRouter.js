@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+// middlewares
+const auth = require('../middleware/auth')
+// models
 const User = require('../models/userModel')
 
 // register
@@ -80,6 +82,34 @@ router.post('/login', async (req, res) => {
 				email: user.email,
 			},
 		})
+	} catch (err) {
+		res.status(500).json({ error: err.message })
+	}
+})
+
+// deleting an user
+router.delete('/delete', auth, async (req, res) => {
+	try {
+		const deletedUser = await User.findOneAndDelete(req.user)
+		res.json(deletedUser)
+	} catch (err) {
+		res.status(500).json({ error: err.message })
+	}
+})
+
+// verifie a token
+router.post('/tokenIsValid', async (req, res) => {
+	try {
+		const token = req.header('x-auth-token')
+		if (!token) return res.json(false)
+
+		const verified = jwt.verify(token, process.env.JWT_TOKEN)
+		if (!verified) return res.json(false)
+
+		const user = await User.findById(verified.id)
+		if (!user) return res.json(false)
+
+		return res.json(true)
 	} catch (err) {
 		res.status(500).json({ error: err.message })
 	}
