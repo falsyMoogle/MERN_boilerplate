@@ -118,7 +118,6 @@ router.post('/tokenIsValid', async (req, res) => {
 router.get('/', auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.user)
-		console.log('user', user)
 		res.json({
 			id: user._id,
 			displayName: user.displayName,
