@@ -12,35 +12,38 @@ const RegisterForm = () => {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [checkPassword, setCheckPassword] = useState('')
+	const [passwordCheck, setPasswordCheck] = useState('')
 	const [displayName, setDisplayName] = useState('')
 
 	const submitHandler = async e => {
 		e.preventDefault()
-		const newUser = { email, password, checkPassword, displayName }
+		try {
+			const newUser = { email, password, passwordCheck, displayName }
+			console.log('newUser', newUser)
+			// register user request
+			await axios.post('http://localhost:5000/users/register', newUser)
+			// login user and get user obj with data which includes webtoken
+			const loginResponse = await axios.post(
+				'http://localhost:5000/users/login',
+				{
+					email,
+					password,
+				}
+			)
 
-		// register user request
-		await axios.post('http://localhost:5000/users/register', newUser)
+			setUserData({
+				token: loginResponse.data.token,
+				user: loginResponse.data.user,
+			})
 
-		// login user and get user obj with data wich includes webtoken
-		const loginResponse = await axios.post(
-			'http://localhost:5000/users/login',
-			{
-				email,
-				password,
-			}
-		)
+			// setup webtoken to local storage
+			localStorage.setItem('auth-token', loginResponse.data.token)
 
-		setUserData({
-			token: loginResponse.data.token,
-			user: loginResponse.data.user,
-		})
-
-		// setup webtoken to local storage
-		localStorage.setItem('auth-token', loginResponse.data.token)
-
-		// redirect to home page
-		history.push('/')
+			// redirect to home page
+			history.push('/')
+		} catch (err) {
+			throw new Error(err.response.data.msg)
+		}
 	}
 
 	return (
@@ -70,7 +73,7 @@ const RegisterForm = () => {
 				<input
 					id='register-password-check'
 					type='password'
-					onChange={e => setCheckPassword(e.target.value)}
+					onChange={e => setPasswordCheck(e.target.value)}
 				/>
 			</div>
 

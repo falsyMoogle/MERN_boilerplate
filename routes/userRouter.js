@@ -44,7 +44,6 @@ router.post('/register', async (req, res) => {
 			displayName,
 		})
 		const savedUser = await newUser.save()
-
 		// send user data to frontend
 		res.json(savedUser)
 	} catch (err) {
