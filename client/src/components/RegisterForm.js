@@ -19,7 +19,6 @@ const RegisterForm = () => {
 		e.preventDefault()
 		try {
 			const newUser = { email, password, passwordCheck, displayName }
-			console.log('newUser', newUser)
 			// register user request
 			await axios.post('http://localhost:5000/users/register', newUser)
 			// login user and get user obj with data which includes webtoken
