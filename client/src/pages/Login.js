@@ -4,7 +4,7 @@ import LoginForm from '../components/LoginForm'
 
 const Login = () => {
 	return (
-		<div>
+		<div className='page-container'>
 			<LoginForm />
 		</div>
 	)

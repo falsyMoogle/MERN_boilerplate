@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
+import ErrorNotice from './ErrorNotice'
+
 import AuthContext from '../context/AuthContext'
 
 import '../styles/components/RegisterForm.css'
@@ -14,6 +16,7 @@ const RegisterForm = () => {
 	const [password, setPassword] = useState('')
 	const [passwordCheck, setPasswordCheck] = useState('')
 	const [displayName, setDisplayName] = useState('')
+	const [error, setError] = useState(null)
 
 	const submitHandler = async e => {
 		e.preventDefault()
@@ -41,12 +44,15 @@ const RegisterForm = () => {
 			// redirect to home page
 			history.push('/')
 		} catch (err) {
-			throw new Error(err.response.data.msg)
+			err.response.data.msg && setError(err.response.data.msg)
 		}
 	}
 
 	return (
 		<form className='auth__form' onSubmit={submitHandler}>
+			{error && (
+				<ErrorNotice message={error} closeError={() => setError(null)} />
+			)}
 			<h2 className='auth__form-title'>Register</h2>
 
 			<div className='auth__form-group'>

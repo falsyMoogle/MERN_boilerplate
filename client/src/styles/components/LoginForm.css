@@ -25,7 +25,7 @@
 	margin-bottom: 10px;
 	padding: 3px 8px;
 	border: 1px solid #000;
-	border-radius: 25px;
+	border-radius: 5px;
 	outline: none;
 	transition: 0.2s ease-in-out;
 }
@@ -34,8 +34,8 @@
 	border: #313de9;
 }
 
-.auth__form-button {
-	padding: 5px 10px;
+.auth__form-login-btn {
+	padding: 8px 15px;
 	color: #fff;
 	background-color: #33b628;
 	border-radius: 25px;
@@ -43,6 +43,6 @@
 	transition: 0.2s ease-in-out;
 }
 
-.auth__form-button:hover {
+.auth__form-login-btn:hover {
 	background-color: #34b628c7;
 }

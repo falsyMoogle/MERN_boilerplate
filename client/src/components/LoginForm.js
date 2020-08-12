@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 
+import ErrorNotice from './ErrorNotice'
+
 import AuthContext from '../context/AuthContext'
 
 import '../styles/components/LoginForm.css'
@@ -12,6 +14,7 @@ const LoginForm = () => {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [error, setError] = useState(null)
 
 	const submitHandler = async e => {
 		e.preventDefault()
@@ -33,12 +36,15 @@ const LoginForm = () => {
 			// redirect to home page
 			history.push('/')
 		} catch (err) {
-			throw new Error(err)
+			err.response.data.msg && setError(err.response.data.msg)
 		}
 	}
 
 	return (
 		<form className='auth__form' onSubmit={submitHandler}>
+			{error && (
+				<ErrorNotice message={error} closeError={() => setError(null)} />
+			)}
 			<h2 className='auth__form-title'>Register</h2>
 
 			<div className='auth__form-group'>
@@ -58,7 +64,7 @@ const LoginForm = () => {
 					onChange={e => setPassword(e.target.value)}
 				/>
 			</div>
-			<button className='auth__form-button'>Log In</button>
+			<button className='auth__form-login-btn'>Log In</button>
 		</form>
 	)
 }

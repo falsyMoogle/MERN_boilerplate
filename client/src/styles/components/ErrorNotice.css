@@ -1,0 +1,23 @@
+.error-notice {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-size: 16px;
+	background-color: #e92727;
+	color: #fff;
+}
+
+.error-notice__close {
+	margin-left: 15px;
+	padding: 5px 10px;
+	border-radius: 99px;
+	font-size: 20px;
+	background-color: inherit;
+}
+
+.error-notice__close:hover {
+	background-color: #eb4d4db3;
+}
