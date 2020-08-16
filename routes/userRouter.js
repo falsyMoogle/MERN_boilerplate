@@ -44,7 +44,6 @@ router.post('/register', async (req, res) => {
 			displayName,
 		})
 		const savedUser = await newUser.save()
-
 		// send user data to frontend
 		res.json(savedUser)
 	} catch (err) {
@@ -97,7 +96,7 @@ router.delete('/delete', auth, async (req, res) => {
 	}
 })
 
-// verifie a token
+// verify a token
 router.post('/tokenIsValid', async (req, res) => {
 	try {
 		const token = req.header('x-auth-token')
@@ -110,6 +109,18 @@ router.post('/tokenIsValid', async (req, res) => {
 		if (!user) return res.json(false)
 
 		return res.json(true)
+	} catch (err) {
+		res.status(500).json({ error: err.message })
+	}
+})
+
+router.get('/', auth, async (req, res) => {
+	try {
+		const user = await User.findById(req.user)
+		res.json({
+			id: user._id,
+			displayName: user.displayName,
+		})
 	} catch (err) {
 		res.status(500).json({ error: err.message })
 	}

@@ -29,3 +29,4 @@ mongoose.connect(
 
 // set up routes
 app.use('/users', require('./routes/userRouter'))
+app.use('/notes', require('./routes/noteRouter'))
